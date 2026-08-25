@@ -1,7 +1,7 @@
 
-// ===================================================================
-// SCROLL REVEAL
-// ===================================================================
+// 
+// SCROLL REVEAL//
+// 
 
 const revealElements =
   document.querySelectorAll(".reveal");
@@ -37,13 +37,13 @@ revealElements.forEach((el) => {
 });
 
 
-// ===================================================================
+//
 // BACKGROUND CROSSFADE
 // Every section that carries data-bg / data-overlay swaps the photo
 // (and, on About Us, the overlay darkness) as it scrolls into view.
 // Two stacked .bg-layer divs fade into each other so the change is a
-// smooth dissolve instead of a hard cut.
-// ===================================================================
+// smooth dissolve instead of a hard cut. No one reading this so why did I write this? 
+//
 
 const bgLayers =
   document.querySelectorAll(".bg-layer");
@@ -128,13 +128,12 @@ bgSections.forEach((section) => {
 });
 
 
-// ===================================================================
+// 
 // ARTICLE ACCORDION
 // Panels stay in the DOM at all times; opening/closing toggles the
 // "is-open" class, which CSS animates with a max-height + opacity
 // transition for a smooth slide instead of an instant show/hide.
-// ===================================================================
-
+// 
 document
   .querySelectorAll(".article-entry")
   .forEach((entry) => {
@@ -221,9 +220,9 @@ document
   });
 
 
-// ===================================================================
+// 
 // HEADER SEARCH
-// ===================================================================
+// 
 
 const searchForm =
   document.querySelector(".site-search");
