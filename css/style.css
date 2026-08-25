@@ -1,6 +1,5 @@
-/* ================================================================
-   DESIGN TOKENS
-================================================================ */
+/*
+   DESIGN Tokens */
 
 :root {
   --espresso: #1B120E;
@@ -12,7 +11,7 @@
   --highlight: #F2C230;
   --overlay: rgba(18, 12, 9, 0.74);
   --overlay-duller: rgba(12, 8, 6, 0.88);
-
+/*Dont know why but the toturial used rgba and hexcodes so just trust*/
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "Work Sans", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-accent: "Caveat", cursive;
@@ -23,9 +22,8 @@
 }
 
 
-/* ================================================================
-   RESET / BASE
-================================================================ */
+/* Something is wrong here but I cant find it its messing with mobile
+   RESET / BASE */
 
 * {
   box-sizing: border-box;
@@ -59,11 +57,11 @@ img {
 }
 
 
-/* ================================================================
+/* 
    FIXED, FULL-BLEED, CROSSFADING BACKGROUND
    Two stacked layers so JS can fade from one photo to the next as
-   the reader scrolls between sections, instead of an abrupt swap.
-================================================================ */
+   the reader scrolls between sections, instead of an abrupt swap. In other
+   words fud you js script you have been tamed. */
 
 .site-background {
   position: fixed;
@@ -72,7 +70,7 @@ img {
 
   width: 100vw;
   height: 100vh;
-  height: 100dvh; /* keeps the photo filling the screen on mobile browser chrome */
+  height: 100dvh; /* keeps the photo filling the screen on mobile browser */
 
   overflow: hidden;
 
@@ -109,9 +107,8 @@ img {
 }
 
 
-/* ================================================================
-   HEADER / NAVIGATION
-================================================================ */
+/* 
+   HEADER / NAVIGATION */
 
 .site-header {
   position: sticky;
@@ -181,9 +178,9 @@ img {
 }
 
 
-/* ================================================================
+/*
    SEARCH
-================================================================ */
+ */
 
 .site-search {
   display: flex;
@@ -272,9 +269,9 @@ img {
 }
 
 
-/* ================================================================
-   HERO SECTION
-================================================================ */
+/* 
+HERO SECTION
+ */
 
 .hero {
   max-width: 780px;
@@ -360,9 +357,9 @@ img {
 }
 
 
-/* ================================================================
-   MENU SECTION
-================================================================ */
+/* 
+MENU SECTION */
+
 
 .menu-section {
   max-width: var(--max-width);
@@ -1049,9 +1046,8 @@ img {
 }
 
 
-/* ================================================================
-   REDUCED MOTION
-================================================================ */
+/* 
+   REDUCED MOTION OF SCROLLING */
 
 @media (prefers-reduced-motion: reduce) {
 
