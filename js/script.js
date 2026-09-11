@@ -1,304 +1,171 @@
+// ==========================================================================
+// THE TRUTH BARISTA — site script
+// Sections: 1) background crossfade  2) scroll reveal  3) accordions
+//           4) mobile nav  5) audio toggle  6) search-to-article
+// ==========================================================================
 
-// 
-// SCROLL REVEAL//
-// 
+document.addEventListener('DOMContentLoaded', function () {
 
-const revealElements =
-  document.querySelectorAll(".reveal");
+  /* ------------------------------------------------------------------
+     1) BACKGROUND CROSSFADE
+     Every section with data-bg gets watched; when it becomes the main
+     thing on screen, the currently-inactive layer is loaded with that
+     section's image and faded in, then the layers swap roles.
+  ------------------------------------------------------------------ */
+  var bgLayers = document.querySelectorAll('.bg-layer');
+  var overlay = document.querySelector('.site-overlay');
+  var bgSections = document.querySelectorAll('[data-bg]');
+  var currentBg = '';
 
-const revealObserver =
-  new IntersectionObserver(
-    (entries) => {
+  function setOverlay(kind) {
+    if (kind === 'duller') {
+      overlay.classList.add('is-duller');
+    } else {
+      overlay.classList.remove('is-duller');
+    }
+  }
 
-      entries.forEach((entry) => {
-
-        if (entry.isIntersecting) {
-
-          entry.target.classList.add("is-visible");
-
-          // Reveal once, then stop watching it
-          revealObserver.unobserve(entry.target);
-
+  if (bgLayers.length === 2 && bgSections.length) {
+    var bgObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var img = entry.target.getAttribute('data-bg');
+        var overlayKind = entry.target.getAttribute('data-overlay');
+        if (img && img !== currentBg) {
+          currentBg = img;
+          var active = document.querySelector('.bg-layer.is-active');
+          var inactive = active === bgLayers[0] ? bgLayers[1] : bgLayers[0];
+          inactive.style.backgroundImage = 'url(' + img + ')';
+          // Force a reflow so the transition actually plays before swapping classes
+          void inactive.offsetWidth;
+          inactive.classList.add('is-active');
+          active.classList.remove('is-active');
         }
-
+        setOverlay(overlayKind);
       });
+    }, { threshold: 0.45 });
 
-    },
-    {
-      threshold: 0.15
-    }
-  );
-
-
-revealElements.forEach((el) => {
-
-  revealObserver.observe(el);
-
-});
-
-
-//
-// BACKGROUND CROSSFADE
-// Every section that carries data-bg / data-overlay swaps the photo
-// (and, on About Us, the overlay darkness) as it scrolls into view.
-// Two stacked .bg-layer divs fade into each other so the change is a
-// smooth dissolve instead of a hard cut. No one reading this so why did I write this? 
-//
-
-const bgLayers =
-  document.querySelectorAll(".bg-layer");
-
-const siteOverlay =
-  document.querySelector(".site-overlay");
-
-let activeLayerIndex = 0;
-let currentBgImage =
-  bgLayers[0]
-    ? bgLayers[0].style.backgroundImage
-    : "";
-
-function setBackground(imagePath, overlayMode) {
-
-  const targetUrl = `url('${imagePath}')`;
-
-  if (targetUrl !== currentBgImage) {
-
-    const nextIndex = (activeLayerIndex + 1) % bgLayers.length;
-    const nextLayer = bgLayers[nextIndex];
-    const currentLayer = bgLayers[activeLayerIndex];
-
-    nextLayer.style.backgroundImage = targetUrl;
-    nextLayer.classList.add("is-active");
-    currentLayer.classList.remove("is-active");
-
-    activeLayerIndex = nextIndex;
-    currentBgImage = targetUrl;
-
+    bgSections.forEach(function (section) { bgObserver.observe(section); });
   }
 
-  if (siteOverlay) {
+  /* ------------------------------------------------------------------
+     2) SCROLL REVEAL
+  ------------------------------------------------------------------ */
+  var revealEls = document.querySelectorAll('.reveal');
+  if (revealEls.length) {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
 
-    siteOverlay.classList.toggle(
-      "is-duller",
-      overlayMode === "duller"
-    );
-
+    revealEls.forEach(function (el) { revealObserver.observe(el); });
   }
 
-}
-
-const bgSections =
-  document.querySelectorAll("[data-bg]");
-
-const bgObserver =
-  new IntersectionObserver(
-    (entries) => {
-
-      // Of the sections currently on screen, use the one closest
-      // to the top of the viewport as the "active" background.
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort(
-          (a, b) =>
-            a.boundingClientRect.top -
-            b.boundingClientRect.top
-        );
-
-      if (visible.length > 0) {
-
-        const target = visible[0].target;
-
-        setBackground(
-          target.dataset.bg,
-          target.dataset.overlay
-        );
-
-      }
-
-    },
-    {
-      threshold: 0.35
-    }
-  );
-
-bgSections.forEach((section) => {
-
-  bgObserver.observe(section);
-
-});
-
-
-// 
-// ARTICLE ACCORDION
-// Panels stay in the DOM at all times; opening/closing toggles the
-// "is-open" class, which CSS animates with a max-height + opacity
-// transition for a smooth slide instead of an instant show/hide.
-// 
-document
-  .querySelectorAll(".article-entry")
-  .forEach((entry) => {
-
-    const toggleBtn =
-      entry.querySelector(".article-toggle");
-
-    const panel =
-      entry.querySelector(".article-panel");
-
-    const collapseBtns =
-      entry.querySelectorAll(".article-collapse");
-
-
-    const openPanel = () => {
-
-      panel.classList.add("is-open");
-
-      toggleBtn.setAttribute(
-        "aria-expanded",
-        "true"
-      );
-
-    };
-
-
-    const closePanel = () => {
-
-      panel.classList.remove("is-open");
-
-      toggleBtn.setAttribute(
-        "aria-expanded",
-        "false"
-      );
-
-    };
-
-
-    toggleBtn.addEventListener(
-      "click",
-      () => {
-
-        const isOpen =
-          toggleBtn.getAttribute(
-            "aria-expanded"
-          ) === "true";
-
-        if (isOpen) {
-
-          closePanel();
-
-        } else {
-
-          openPanel();
-
-        }
-
-      }
-    );
-
-
-    collapseBtns.forEach((btn) => {
-
-      btn.addEventListener(
-        "click",
-        () => {
-
-          closePanel();
-
-          toggleBtn.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest"
-          });
-
-        }
-      );
-
+  /* ------------------------------------------------------------------
+     3) ACCORDIONS (article toggle / collapse buttons)
+  ------------------------------------------------------------------ */
+  document.querySelectorAll('.article-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
     });
-
-
-    // Allow header search to open this article
-    entry.openArticle = openPanel;
-
   });
 
-
-// 
-// HEADER SEARCH
-// 
-
-const searchForm =
-  document.querySelector(".site-search");
-
-
-if (searchForm) {
-
-  searchForm.addEventListener(
-    "submit",
-    (event) => {
-
-      event.preventDefault();
-
-
-      const topic =
-        searchForm.elements.topic.value;
-
-      const author =
-        searchForm.elements.author.value;
-
-
-      // Nothing selected
-      if (!topic) {
-        return;
+  document.querySelectorAll('.article-collapse').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var panel = btn.closest('.article-panel');
+      if (!panel) return;
+      var toggle = document.querySelector('[aria-controls="' + panel.id + '"]');
+      if (toggle) {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
+    });
+  });
 
+  /* ------------------------------------------------------------------
+     4) MOBILE NAV
+  ------------------------------------------------------------------ */
+  var navToggle = document.getElementById('nav-toggle');
+  var navPanel = document.getElementById('site-nav-panel');
 
-      // Build target ID, e.g. "truth-centina" or just "truth"
-      const targetId =
-        author
-          ? `${topic}-${author}`
-          : topic;
+  if (navToggle && navPanel) {
+    navToggle.addEventListener('click', function () {
+      var open = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!open));
+      navPanel.classList.toggle('is-open', !open);
+    });
 
+    navPanel.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        navToggle.setAttribute('aria-expanded', 'false');
+        navPanel.classList.remove('is-open');
+      });
+    });
+  }
 
-      const targetEl =
-        document.getElementById(targetId);
+  /* ------------------------------------------------------------------
+     5) AUDIO TOGGLE
+     Placeholder <audio> — point its <source> at your own file in the
+     HTML. This just handles the play/pause button and its label.
+  ------------------------------------------------------------------ */
+  var audio = document.getElementById('site-audio');
+  var audioBtn = document.getElementById('audio-toggle');
+  var audioLabel = audioBtn ? audioBtn.querySelector('.audio-label') : null;
 
-
-      // No matching element
-      if (!targetEl) {
-        return;
-      }
-
-
-      // If an author was selected,
-      // open the article automatically.
-      if (author) {
-
-        const entry =
-          targetEl.closest(".article-entry");
-
-
-        if (entry && entry.openArticle) {
-
-          entry.openArticle();
-
-        }
-
-
-        entry.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
+  if (audio && audioBtn) {
+    audioBtn.addEventListener('click', function () {
+      if (audio.paused) {
+        audio.play().catch(function () {
+          // No audio file has been added yet, or the browser blocked it.
+          if (audioLabel) audioLabel.textContent = 'Add an audio file';
         });
-
-
       } else {
-
-        // Otherwise scroll to the topic
-        targetEl.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-
+        audio.pause();
       }
+    });
 
-    }
-  );
+    audio.addEventListener('play', function () {
+      audioBtn.setAttribute('aria-pressed', 'true');
+      if (audioLabel) audioLabel.textContent = 'Pause music';
+    });
 
-}
+    audio.addEventListener('pause', function () {
+      audioBtn.setAttribute('aria-pressed', 'false');
+      if (audioLabel) audioLabel.textContent = 'Play music';
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     6) SEARCH FORM — jump to (and open) the chosen topic/author
+  ------------------------------------------------------------------ */
+  var searchForm = document.getElementById('site-search');
+  var topicSelect = document.getElementById('search-topic');
+  var authorSelect = document.getElementById('search-author');
+
+  if (searchForm) {
+    searchForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var topic = topicSelect ? topicSelect.value : '';
+      var author = authorSelect ? authorSelect.value : '';
+      if (!topic) return;
+
+      var targetId = author ? (topic + '-' + author) : topic;
+      var target = document.getElementById(targetId) || document.getElementById(topic);
+      if (!target) return;
+
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // If we landed on a specific article panel, open its accordion.
+      if (author) {
+        var toggle = document.querySelector('[aria-controls="' + targetId + '"]');
+        if (toggle) toggle.setAttribute('aria-expanded', 'true');
+      }
+    });
+  }
+
+});
