@@ -518,47 +518,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* ========================================================================
-     6) AUDIO TOGGLE
+     6) Audio TOGGLE
      ======================================================================== */
 
-  var audio =
+  var Audio =
     document.getElementById(
-      "site-audio"
+      "site-Audio"
     );
 
 
-  var audioBtn =
+  var AudioBtn =
     document.getElementById(
-      "audio-toggle"
+      "Audio-toggle"
     );
 
 
-  var audioLabel =
-    audioBtn
-      ? audioBtn.querySelector(
-          ".audio-label"
+  var AudioLabel =
+    AudioBtn
+      ? AudioBtn.querySelector(
+          ".Audio-label"
         )
       : null;
 
 
-  if (audio && audioBtn) {
+  if (Audio && AudioBtn) {
 
 
-    audioBtn.addEventListener(
+    AudioBtn.addEventListener(
       "click",
       function () {
 
 
-        if (audio.paused) {
+        if (Audio.paused) {
 
 
-          audio.play().catch(
+          Audio.play().catch(
             function () {
 
-              if (audioLabel) {
+              if (AudioLabel) {
 
-                audioLabel.textContent =
-                  "Add an audio file";
+                AudioLabel.textContent =
+                  "Add an Audio file";
 
               }
 
@@ -568,7 +568,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } else {
 
-          audio.pause();
+          Audio.pause();
 
         }
 
@@ -577,19 +577,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    audio.addEventListener(
+    Audio.addEventListener(
       "play",
       function () {
 
-        audioBtn.setAttribute(
+        AudioBtn.setAttribute(
           "aria-pressed",
           "true"
         );
 
 
-        if (audioLabel) {
+        if (AudioLabel) {
 
-          audioLabel.textContent =
+          AudioLabel.textContent =
             "Pause music";
 
         }
@@ -599,19 +599,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    audio.addEventListener(
+    Audio.addEventListener(
       "pause",
       function () {
 
-        audioBtn.setAttribute(
+        AudioBtn.setAttribute(
           "aria-pressed",
           "false"
         );
 
 
-        if (audioLabel) {
+        if (AudioLabel) {
 
-          audioLabel.textContent =
+          AudioLabel.textContent =
             "Play music";
 
         }
