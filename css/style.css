@@ -1137,10 +1137,10 @@ p {
 
 
 /* ==========================================================================
-   AUDIO
+   Audio
    ========================================================================== */
 
-.audio-toggle {
+.Audio-toggle {
   position: fixed;
 
   right: 22px;
@@ -1171,20 +1171,20 @@ p {
     transform 0.2s ease;
 }
 
-.audio-toggle:hover {
+.Audio-toggle:hover {
   transform: translateY(-2px);
 }
 
-.audio-icon {
+.Audio-icon {
   font-size: 1.1rem;
   color: var(--color-gold);
 }
 
-.audio-toggle[aria-pressed="true"] .audio-icon {
-  animation: audio-pulse 1.4s ease-in-out infinite;
+.Audio-toggle[aria-pressed="true"] .Audio-icon {
+  animation: Audio-pulse 1.4s ease-in-out infinite;
 }
 
-@keyframes audio-pulse {
+@keyframes Audio-pulse {
   0%,
   100% {
     opacity: 1;
@@ -1195,7 +1195,7 @@ p {
   }
 }
 
-.audio-label {
+.Audio-label {
   font-size: 0.85rem;
 }
 
@@ -1413,11 +1413,11 @@ p {
     padding: 100px var(--gutter) 60px;
   }
 
-  .audio-label {
+  .Audio-label {
     display: none;
   }
 
-  .audio-toggle {
+  .Audio-toggle {
     padding: 12px;
   }
 
