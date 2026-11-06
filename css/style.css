@@ -1433,3 +1433,570 @@ p {
     padding: 80px var(--gutter);
   }
 }
+
+
+/* ==========================================================================
+   STUDENT TASK
+   ========================================================================== */
+
+.student-task {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 100px var(--gutter) 50px;
+}
+
+.student-task-header {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+h2.student-task-tag {
+  font-family: var(--font-body);
+  font-weight: 400;
+  margin-bottom: 14px;
+}
+
+.student-task-box {
+  max-width: 880px;
+  margin: 0 auto;
+  overflow: hidden;
+
+  background: var(--color-panel);
+  border: 1px solid rgba(205, 164, 94, 0.3);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.48);
+
+  animation: student-float 8s ease-in-out infinite;
+}
+
+@keyframes student-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.student-task-figure {
+  margin: 0;
+}
+
+.student-task-photo {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+
+  background: linear-gradient(135deg, var(--color-panel-2), var(--color-bg-soft));
+  border-bottom: 1px solid rgba(205, 164, 94, 0.2);
+}
+
+.student-task-photo::before {
+  content: attr(data-placeholder);
+  font-family: var(--font-script);
+  font-size: 1.3rem;
+  color: var(--color-gold);
+}
+
+.student-task-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.student-task-figure figcaption {
+  padding: 12px 28px 0;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.student-task-text {
+  padding: 28px 32px 34px;
+  color: var(--color-muted);
+  line-height: 1.75;
+}
+
+.student-task-text p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* ==========================================================================
+   PUZZLE SECTION
+   ========================================================================== */
+
+.ip-section {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 30px var(--gutter) 110px;
+}
+
+.ip-intro {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 36px;
+}
+
+.ip-game {
+  --ip-green: 61, 220, 132;
+  --ip-red: 255, 77, 94;
+  --ip-blue: 77, 163, 255;
+
+  position: relative;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 22px;
+
+  background: linear-gradient(180deg, #221912, #17110d);
+  border: 1px solid rgba(205, 164, 94, 0.35);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
+}
+
+.ip-green { --aura: var(--ip-green); }
+.ip-red   { --aura: var(--ip-red); }
+.ip-blue  { --aura: var(--ip-blue); }
+
+
+/* ---------- chips (choose a circle) ---------- */
+
+.ip-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.ip-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+
+  border: 1px solid rgba(var(--aura), 0.45);
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ip-chip::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgb(var(--aura));
+  box-shadow: 0 0 8px rgb(var(--aura));
+}
+
+.ip-chip[aria-pressed="true"] {
+  background: rgba(var(--aura), 0.16);
+  color: var(--color-cream);
+  box-shadow: 0 0 14px rgba(var(--aura), 0.35);
+}
+
+
+/* ---------- board ---------- */
+
+.ip-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  aspect-ratio: 11 / 9;
+  overflow: hidden;
+
+  background-color: #1a120c;
+  background-image:
+    linear-gradient(rgba(205, 164, 94, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(205, 164, 94, 0.06) 1px, transparent 1px);
+  background-size: calc(100% / 11) calc(100% / 9);
+
+  border-radius: var(--radius-md);
+  box-shadow:
+    inset 0 0 70px rgba(0, 0, 0, 0.7),
+    inset 0 0 0 1px rgba(205, 164, 94, 0.2);
+}
+
+.ip-cell {
+  position: relative;
+}
+
+/* walls: raised coffee-brown blocks */
+
+.ip-wall {
+  background: linear-gradient(145deg, #5a3a22, #3d2616);
+  box-shadow:
+    inset 0 0 0 1px rgba(230, 201, 141, 0.28),
+    inset 0 2px 0 rgba(230, 201, 141, 0.18);
+}
+
+/* paths: dark espresso */
+
+.ip-floor {
+  background: #0e0906;
+  box-shadow: inset 0 0 0 1px rgba(205, 164, 94, 0.07);
+}
+
+
+/* exit */
+
+.ip-cell.ip-exit {
+  background: rgba(230, 201, 141, 0.16);
+  box-shadow: inset 0 0 18px rgba(230, 201, 141, 0.5);
+  animation: ip-exit-glow 2.6s ease-in-out infinite;
+}
+
+@keyframes ip-exit-glow {
+  0%, 100% { background: rgba(230, 201, 141, 0.1); }
+  50% { background: rgba(230, 201, 141, 0.26); }
+}
+
+
+/* switches */
+
+.ip-relay::after,
+.ip-node::after,
+.ip-plate::after {
+  content: "";
+  position: absolute;
+  inset: 26%;
+  border: 2px solid rgb(var(--sw));
+  box-shadow: 0 0 10px rgba(var(--sw), 0.7);
+  opacity: 0.7;
+  transition: background 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ip-relay { --sw: var(--ip-red); }
+.ip-node  { --sw: var(--ip-green); }
+.ip-plate { --sw: var(--ip-blue); }
+
+.ip-relay::after,
+.ip-node::after {
+  border-radius: 50%;
+}
+
+.ip-plate::after {
+  border-radius: 4px;
+}
+
+.ip-relay.is-on::after,
+.ip-node.is-on::after,
+.ip-plate.is-on::after {
+  background: rgba(var(--sw), 0.55);
+  opacity: 1;
+  box-shadow: 0 0 18px rgba(var(--sw), 0.95);
+}
+
+
+/* ---------- gates: long wooden doors that slide into the wall ---------- */
+
+.ip-gate-blue  { --tint: var(--ip-blue); }
+.ip-gate-green { --tint: var(--ip-green); }
+.ip-gate-red   { --tint: var(--ip-red); }
+
+/* the cell itself stays a dark path; the door is the ::after slab */
+
+.ip-cell.ip-gate {
+  background: #0e0906;
+  box-shadow: inset 0 0 0 1px rgba(var(--tint), 0.25);
+}
+
+.ip-gate::after {
+  content: "";
+  position: absolute;
+  inset: 3% 24%;                     /* tall, narrow door (corridors that run sideways) */
+
+  border-radius: 4px;
+  border: 2px solid rgb(var(--tint));
+
+  background:
+    radial-gradient(circle at 50% 50%, #e6c98d 0 3px, transparent 4px),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.18) 0 3px,
+      transparent 3px 8px
+    ),
+    linear-gradient(145deg, #8a5a3a, #4a2f1c);
+
+  box-shadow:
+    0 0 14px rgba(var(--tint), 0.6),
+    inset 0 0 8px rgba(0, 0, 0, 0.5);
+
+  transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* the red gate sits in a corridor that runs up/down: wide, flat door */
+
+.ip-gate-red::after {
+  inset: 24% 3%;
+  background:
+    radial-gradient(circle at 50% 50%, #e6c98d 0 3px, transparent 4px),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.18) 0 3px,
+      transparent 3px 8px
+    ),
+    linear-gradient(145deg, #8a5a3a, #4a2f1c);
+}
+
+/* open: the door slides, whole, into the wall block beside it */
+
+.ip-gate.is-open::after {
+  transform: translateY(-106%);      /* upright doors slide up into the wall above */
+  opacity: 0.55;
+  box-shadow: 0 0 6px rgba(var(--tint), 0.3), inset 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.ip-gate-red.is-open::after {
+  transform: translateX(-106%);      /* the flat door slides left into the wall beside it */
+}
+
+
+/* ---------- circles ---------- */
+
+.ip-pieces {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ip-piece {
+  position: absolute;
+  left: calc((var(--c) + 0.13) * 100% / 11);
+  top: calc((var(--r) + 0.13) * 100% / 9);
+  width: calc(100% / 11 * 0.74);
+  aspect-ratio: 1;
+
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid rgb(var(--aura));
+  background: radial-gradient(circle, rgba(var(--aura), 0.5), rgba(var(--aura), 0.12));
+
+  box-shadow:
+    0 0 10px rgba(var(--aura), 0.9),
+    0 0 26px rgba(var(--aura), 0.45);
+
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 2;
+
+  transition:
+    left 0.2s ease,
+    top 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+}
+
+.ip-piece img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.ip-piece.is-selected {
+  transform: scale(1.1);
+  z-index: 3;
+  box-shadow:
+    0 0 14px rgba(var(--aura), 1),
+    0 0 40px rgba(var(--aura), 0.65);
+}
+
+.ip-piece.is-selected::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--aura), 0.7);
+  animation: ip-ring 1.8s ease-out infinite;
+}
+
+@keyframes ip-ring {
+  from { transform: scale(0.9); opacity: 0.9; }
+  to { transform: scale(1.5); opacity: 0; }
+}
+
+.ip-piece.is-bump {
+  animation: ip-bump 0.25s ease;
+}
+
+@keyframes ip-bump {
+  0%, 100% { translate: 0 0; }
+  30% { translate: -3px 0; }
+  70% { translate: 3px 0; }
+}
+
+
+/* ---------- status, controls, legend ---------- */
+
+.ip-status {
+  min-height: 3em;
+  margin: 16px 0 6px;
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.92rem;
+}
+
+.ip-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+
+.ip-dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 48px);
+  grid-template-rows: repeat(2, 48px);
+  gap: 6px;
+}
+
+.ip-dpad button {
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(205, 164, 94, 0.4);
+  background: var(--color-panel);
+  color: var(--color-gold-lt);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.ip-dpad button:active {
+  background: var(--color-panel-2);
+}
+
+.ip-dpad [data-dir="up"]    { grid-column: 2; grid-row: 1; }
+.ip-dpad [data-dir="left"]  { grid-column: 1; grid-row: 2; }
+.ip-dpad [data-dir="down"]  { grid-column: 2; grid-row: 2; }
+.ip-dpad [data-dir="right"] { grid-column: 3; grid-row: 2; }
+
+.ip-restart {
+  background: transparent;
+  cursor: pointer;
+}
+
+.ip-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 22px;
+  margin-top: 22px;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+.ip-legend li::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: rgb(var(--aura));
+  box-shadow: 0 0 6px rgb(var(--aura));
+}
+
+
+/* ---------- completion ---------- */
+
+.ip-shock {
+  position: absolute;
+  left: calc(9.5 * 100% / 11);
+  top: calc(6.5 * 100% / 9);
+  width: 20%;
+  aspect-ratio: 1;
+  margin: -10% 0 0 -10%;
+  border-radius: 50%;
+  border: 2px solid var(--color-gold-lt);
+  box-shadow: 0 0 40px var(--color-gold);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.ip-game.is-complete .ip-shock {
+  animation: ip-shock 1.6s ease-out 2;
+}
+
+@keyframes ip-shock {
+  from { transform: scale(0.2); opacity: 0.95; }
+  to { transform: scale(9); opacity: 0; }
+}
+
+.ip-game.is-complete .ip-piece {
+  animation: ip-pop 1.1s ease both;
+}
+
+@keyframes ip-pop {
+  40% {
+    transform: scale(1.3);
+    box-shadow: 0 0 24px rgba(var(--aura), 1), 0 0 70px rgba(var(--aura), 0.8);
+  }
+}
+
+.ip-finale {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(18px, 5vw, 48px);
+  text-align: center;
+
+  background: rgba(18, 12, 8, 0.88);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.4s ease;
+}
+
+.ip-finale.is-shown {
+  opacity: 1;
+}
+
+.ip-finale-text {
+  max-width: 28ch;
+  margin: 0;
+
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.05rem, 3.2vw, 1.9rem);
+  line-height: 1.4;
+  color: var(--color-gold-lt);
+  text-shadow: 0 0 24px rgba(205, 164, 94, 0.45);
+}
+
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 640px) {
+
+  .student-task {
+    padding: 70px var(--gutter) 40px;
+  }
+
+  .student-task-text {
+    padding: 22px 20px 28px;
+  }
+
+  .ip-section {
+    padding: 20px var(--gutter) 80px;
+  }
+
+  .ip-game {
+    padding: 14px;
+  }
+}
